@@ -18,7 +18,7 @@ export class ICourseScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      consultCourse: true,
+      consultCourse: false,
     };
     this.controller = new AbortController();
   }
@@ -38,7 +38,7 @@ export class ICourseScreen extends Component {
                 <Button
                   title="SI"
                   onPress={() => {
-                    this.props.navigation.navigate('Forget')
+                    this.props.navigation.navigate('CourseDetail')
                   }}
                   buttonStyle={{ backgroundColor: colors.pink }}
                   containerStyle={{
@@ -52,7 +52,7 @@ export class ICourseScreen extends Component {
                 <Button
                   title="NO"
                   onPress={() => {
-                    this.props.navigation.navigate('Forget')
+                    this.setState({consultCourse: false})
                   }}
                   buttonStyle={{ backgroundColor: colors.pink }}
                   containerStyle={{
@@ -66,7 +66,11 @@ export class ICourseScreen extends Component {
             </View>
           :
           <View style={{justifyContent: 'center', display: 'flex', flex:1, alignItems: 'center' }}>
-          {options.map((item, index) => <LevelOption text={item.text} active={item.active} key={index} /> )}
+          {options.map((item, index) => <LevelOption text={item.text} active={item.active} key={index} onPress={() => {
+            if (item.active === true){
+              this.setState({consultCourse: true})
+            }
+          }} /> )}
         </View>
           }
       </View>

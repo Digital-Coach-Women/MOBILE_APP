@@ -34,7 +34,9 @@ export class CoursesScreen extends Component {
             </View>
 
             <View >
-              <TouchableOpacity onPress={() => {}} style={{ marginTop:10, marginBottom: 10}}>
+              <TouchableOpacity onPress={() => {
+                this.props.navigation.navigate('CParticipants')
+              }} style={{ marginTop:10, marginBottom: 10}}>
                 <View style={{borderColor: colors.pink, borderWidth: 2, padding: 5, borderRadius: 30, width: 50, alignSelf: 'center'}}>
                   <FontAwesome5 name='users' color={colors.pink} size={30} style={{}} />
                 </View>

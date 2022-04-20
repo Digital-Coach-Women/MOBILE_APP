@@ -6,4 +6,5 @@ export default  {
     digital: require(PRE_PATH + 'digital.png'),
     ui: require(PRE_PATH + 'ui.png'),
     ui_course: require(PRE_PATH + 'ui_course.png'),
+    ui_detail: require(PRE_PATH + 'ui_detail.png'),
 }
