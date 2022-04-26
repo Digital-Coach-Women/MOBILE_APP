@@ -1,15 +1,18 @@
 import { StyleSheet, View, TextInput } from 'react-native'
-import { Text } from '@rneui/themed';
+import { Text, Input } from '@rneui/themed';
 import React from 'react'
-import { colors } from '../../utils';
+import { colors, constants } from '../../utils';
 
-const TextField = ({label, onChangeText, value, placeholder = '', keyboardType = 'default', secureTextEntry = false, onKeyPress}) => {
+const TextField = ({label, onChangeText, value, placeholder = '', keyboardType = 'default', secureTextEntry = false, onKeyPress, style = {}}) => {
   return (
-    <View style={styles.row}>
-        <Text style={styles.text}>{label}</Text>
-        <TextInput
+    <View style={[styles.row, style]}>
+        <Input
         value={value} 
-        style={styles.input}
+        label={label}
+        labelStyle={{fontWeight: 'normal', fontFamily: constants.openSansRegular}}
+        inputStyle={{fontFamily: constants.openSansSemiBold}}
+        inputContainerStyle={{borderBottomWidth: 0, padding: 0, height: 30, paddingLeft: 0}}
+        containerStyle={{paddingTop: 5, height: 65}}
         onChangeText={onChangeText}
         onKeyPress={onKeyPress}
         secureTextEntry={secureTextEntry}
@@ -21,26 +24,10 @@ const TextField = ({label, onChangeText, value, placeholder = '', keyboardType =
 }
 
 const styles = StyleSheet.create({
-    input: {
-        fontSize: 22, 
-        color: colors.black, 
-        borderBottomColor: colors.black, 
-        borderBottomWidth: 1, 
-        paddingBottom: 5, 
-        paddingTop: 0,
-        width: 234
-      },
-      text: {
-        fontSize: 22,
-        color: colors.pink,
-        fontWeight: 'bold',
-        width: 115
-      },  
-      row: {
-        flexDirection: 'row',
-        paddingRight: 20,
-        paddingLeft: 20,
-      },
+    row: {
+      backgroundColor: colors.whiteBackground,
+      borderRadius: 10,
+    },
 })
 
 export default TextField

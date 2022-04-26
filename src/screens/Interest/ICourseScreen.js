@@ -1,16 +1,13 @@
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native'
 import React, { Component } from 'react'
-import HeaderCourse from '../../components/header/HeaderCourse'
-import { colors, images } from '../../utils'
-import LevelOption from '../../components/Option/LevelOption'
-import Feather from 'react-native-vector-icons/Feather'
-import { Button } from '@rneui/base'
-import { Text } from '@rneui/themed'
+import { colors, constants, images } from '../../utils'
+import { Button, Text } from '@rneui/themed';
 
-const options = [
-    {text: 'B', active: true},
-    {text: 'I', active: false},
-    {text: 'A', active: false},
+
+const levels = [
+  {name: 'Basico', number: 3, active: true},
+  {name: 'Intermedio', number: 3, active: false},
+  {name: 'Avanzado', number: 3, active: false}
 ]
 
 export class ICourseScreen extends Component {
@@ -18,72 +15,92 @@ export class ICourseScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      consultCourse: false,
     };
-    this.controller = new AbortController();
   }
 
   render() {
     return (
       <View style={styles.container}>
-          <HeaderCourse image={images.ui_course} text="UI Design" /> 
-          <TouchableOpacity activeOpacity={.5} onPress={() => {
-            this.props.navigation.navigate('ICourseRoadMap')
-          }} style={{borderRadius: 40, borderWidth: 3, borderColor: colors.blue, position:'absolute', top: 20, alignSelf: 'center', backgroundColor: colors.white}}>
-            <Feather name='bar-chart' size={40} color={colors.blue} style={{margin: 10}} /> 
-          </TouchableOpacity>
-          {this.state.consultCourse ?
-            <View style={{alignItems: 'center', paddingTop:100}}>
-                <Text style={{fontSize: 20, marginBottom:20}}>¿Deseas Matricularte en Este Nivel?</Text>
-                <Button
-                  title="SI"
-                  onPress={() => {
-                    this.props.navigation.navigate('CourseDetail')
-                  }}
-                  buttonStyle={{ backgroundColor: colors.pink }}
-                  containerStyle={{
-                    height: 40,
-                    width: 80,
-                    marginHorizontal: 50,
-                    marginVertical: 10,
-                  }}
-                  titleStyle={{ color: 'white', marginHorizontal: 20 }}
-                />
-                <Button
-                  title="NO"
-                  onPress={() => {
-                    this.setState({consultCourse: false})
-                  }}
-                  buttonStyle={{ backgroundColor: colors.pink }}
-                  containerStyle={{
-                    height: 40,
-                    width: 80,
-                    marginHorizontal: 50,
-                    marginVertical: 10,
-                  }}
-                  titleStyle={{ color: 'white', marginHorizontal: 20 }}
-                />
+        <ScrollView style={{}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginTop: 20}}>
+            <Button
+            icon={{
+              name: 'arrow-left',
+              type: 'font-awesome-5',
+              size: 30,
+              color: 'black',
+            }}
+            buttonStyle={{
+              backgroundColor: colors.white,
+              borderRadius: 10,
+            }}
+            containerStyle={{
+              backgroundColor: colors.white,
+              elevation: 4,
+              borderRadius: 10,
+              width: 60,
+              paddingVertical: 5
+            }}
+            onPress={() => {
+              this.props.navigation.goBack()
+            }}
+            />
+          
+            <Button
+              TouchableComponent={({onPress})  => 
+                <TouchableOpacity activeOpacity={1} onPress={onPress} style={{justifyContent: 'center',alignItems: 'center', flex:1, display: 'flex'}}>
+                  <Image source={images.roadmap} style={{resizeMode: 'contain', width: 35, height: 35}} /> 
+                </TouchableOpacity>
+              }
+              containerStyle={{
+                backgroundColor: colors.white,
+                elevation: 4,
+                borderRadius: 10,
+                width: 60,
+                paddingVertical: 5
+              }}
+              onPress={() => {
+                this.props.navigation.navigate('ICourseRoadMap')
+              }}
+              />
+          </View>
+          <View style={{marginHorizontal: 20}}>
+            <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Diseño UX</Text>  
+            <View style={{backgroundColor: colors.white, elevation: 5, borderRadius: 10, marginTop: 10}}>
+              <Image source={images.ux_cover} style={{width: '100%', height: 300, borderRadius: 10}} />
             </View>
-          :
-          <View style={{justifyContent: 'center', display: 'flex', flex:1, alignItems: 'center' }}>
-          {options.map((item, index) => <LevelOption text={item.text} active={item.active} key={index} onPress={() => {
-            if (item.active === true){
-              this.setState({consultCourse: true})
-            }
-          }} /> )}
-        </View>
-          }
+            <Text style={{fontSize: 18, fontFamily: constants.openSansRegular, marginTop: 10}}>Aprende a hacer las mejores interfaces desde cero. Tanto para tu trabajo o personal. </Text>
+            <Text style={{fontFamily: constants.openSansBold, fontSize: 20, marginTop: 12, marginBottom: 20}} >Niveles</Text>
+              {levels.map((item, index) => {
+                return (
+                  <View key={index} style={{borderRadius: 10, flexDirection: 'row', justifyContent: 'space-between', padding: 15, backgroundColor: item.active ? colors.tealishBlueIntense : colors.grayLight, marginBottom: 20}}>
+                      <View>
+                          <Text style={{fontFamily: constants.openSansBold, fontSize: 18}}>{item.name}</Text>
+                          <Text style={{fontFamily: constants.openSansRegular, color:'#6D6D6D', fontSize: 14}}>{item.number} temas</Text>
+                      </View>
+                      <View style={{justifyContent: 'center'}}>
+                        <TouchableOpacity onPress={() => {}} activeOpacity={1} style={{padding: 2, borderRadius: 10, backgroundColor: item.active ? colors.bluePurple : colors.gray}}>
+                          <Image source={images.plus} style={{resizeMode: 'contain', width: 35, height: 35}} /> 
+                        </TouchableOpacity>
+                      </View>
+                  </View>
+                )
+              })}
+            </View>
+          </ScrollView>
       </View>
     )
   }
 }
 
-export default ICourseScreen
+
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flex: 1,
-        backgroundColor: colors.white
-    }
+  container: {
+    backgroundColor: colors.white,
+    flex: 1,
+    display: 'flex',
+  },
 })
+
+export default ICourseScreen;

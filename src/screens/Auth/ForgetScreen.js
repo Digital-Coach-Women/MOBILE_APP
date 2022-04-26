@@ -1,7 +1,7 @@
-import { View, StyleSheet, Image, TextInput } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants, images } from '../../utils'
-import { Text, Button } from '@rneui/themed';
+import { Button, Text } from '@rneui/themed';
 import TextField from '../../components/Input/TextField';
 
 export class ForgetScreen extends Component {
@@ -11,53 +11,79 @@ export class ForgetScreen extends Component {
     this.state = {
       email: __DEV__ ? 'test@gmail.com' : '',
     };
-    this.controller = new AbortController();
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Image source={images.logo} style={styles.logo} /> 
-        <View style={{height: 40}} /> 
-        <TextField  
-            keyboardType='email-address'
-            placeholder='INGRESE CORREO'
-            label={'Correo:'}
-            value={this.state.email} 
-            onChangeText={text => this.setState({email: text})}
-        />  
-        <View style={{height: 80}} /> 
-        <View style={{alignItems: 'center'}}>
-          <Button
-            title="ENVIAR"
-            onPress={() => {}}
-            buttonStyle={{ backgroundColor: colors.pink }}
-            containerStyle={{
-              height: 40,
-              width: 200,
-              marginHorizontal: 50,
-              marginVertical: 10,
+        <Button
+          icon={{
+            name: 'arrow-left',
+            type: 'font-awesome-5',
+            size: 30,
+            color: 'black',
+          }}
+          buttonStyle={{
+            backgroundColor: colors.white,
+            borderRadius: 10,
+          }}
+          containerStyle={{
+            backgroundColor: colors.white,
+            elevation: 4,
+            borderRadius: 10,
+            width: 60,
+            paddingVertical: 5
+          }}
+          onPress={() => {
+            this.props.navigation.goBack()
+          }}
+        />
+        <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Olvide mi contraseña</Text>
+        <Text style={{fontSize: 16, fontFamily: constants.openSansRegular}}>Recibiras un correo para que puedas restablecer tu contraseña</Text>
+        <TextField 
+          label={'correo'} 
+          onChangeText={text => this.setState({email: text})}
+          keyboardType="email-address"
+          value={this.state.email} 
+          style={{marginTop: 40}} /> 
+        <Button
+            title={'Enviar'}
+            onPress={() => {
+              this.props.navigation.goBack()
             }}
-            titleStyle={{ color: 'white', marginHorizontal: 20 }}
+            titleStyle={{
+              color:colors.white,
+              fontSize: 18, 
+              marginVertical: 5,
+              fontFamily: constants.openSansBold
+            }}
+            buttonStyle={{
+              backgroundColor: colors.bluePurple
+            }}
+            containerStyle={{
+              width: '100%',
+              marginTop: 20,
+              borderRadius: 10, 
+            }}
           />
-        </View>
+          <View style={{height: constants.height, position: 'absolute',justifyContent: 'flex-end', alignItems: 'center'}}>
+            <Image source={images.forget} style={{resizeMode: 'cover', alignSelf: 'center', width: constants.width, height: 300}} />
+          </View>
+
       </View>
     )
   }
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
-    display: 'flex'
+    display: 'flex',
+    padding: 20
   },
-  logo: {
-    alignSelf: 'center',
-    marginTop: 100,
-    width: 150,
-    height: 150
-  }
 })
 
-export default ForgetScreen
+export default ForgetScreen;

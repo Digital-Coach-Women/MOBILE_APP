@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native'
 import { Text } from '@rneui/themed';
 import React from 'react'
-import { colors } from '../../utils';
+import { colors, constants } from '../../utils';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
-const TextFieldDatePicker = ({label,  value, setValue}) => {
+const TextFieldDatePicker = ({label,  value, setValue, text}) => {
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -31,25 +31,24 @@ const TextFieldDatePicker = ({label,  value, setValue}) => {
     };
 
     return (
-        <View style={styles.row}>
-            <Text style={styles.text}>{label}</Text>
+        <View style={{backgroundColor: colors.whiteBackground, marginTop: 17, borderRadius: 10, height: 65}}>
+            <Text style={{color: '#86939e', fontFamily: constants.openSansRegular, fontSize: 16, marginTop:7, marginLeft: 10}}>{label}</Text>
             <Text
             style={styles.input}
             onPress={showDatepicker}
-            >{value.toString()}</Text>
+            >{text}</Text>
         </View>
   )
 }
 
 const styles = StyleSheet.create({
     input: {
-        fontSize: 22, 
+        fontSize: 18, 
+        fontFamily: constants.openSansSemiBold,
         color: colors.black, 
         borderBottomColor: colors.black, 
-        borderBottomWidth: 1, 
-        paddingBottom: 5, 
-        paddingTop: 0,
-        width: 234
+        marginTop: 2,
+        marginLeft: 14
       },
       text: {
         fontSize: 22,

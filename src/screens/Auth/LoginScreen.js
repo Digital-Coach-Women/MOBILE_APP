@@ -1,12 +1,12 @@
-import { View, StyleSheet, Image, TextInput } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import React, { Component } from 'react'
-import { colors, images } from '../../utils'
-import { Button } from '@rneui/themed';
+import { colors, constants, images } from '../../utils'
+import { Button, Text } from '@rneui/themed';
 import { signIn} from '../../store/actions/auth';
 import TextField from '../../components/Input/TextField';
 import { connect } from 'react-redux';
 
-export class LoginScreen extends Component {
+ class LoginScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -24,69 +24,75 @@ export class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={images.logo} style={styles.logo} /> 
-        <View style={{height: 40}} />
-        <TextField  
-            keyboardType='email-address'
-            placeholder='INGRESE CORREO'
-            label={'Correo:'}
-            value={this.state.email} 
-            onChangeText={text => this.setState({email: text})}
-        />  
-        <View style={{height: 20}} /> 
-        <TextField  
-            keyboardType='visible-password'
-            placeholder='INGRESE CLAVE'
-            label={'Contraseña:'}
-            secureTextEntry={true}
-            value={this.state.password} 
-            onChangeText={text => this.setState({password: text})}
-        />  
-        <View style={{height: 80}} /> 
-        <View style={{alignItems: 'center'}}>
-          <Button
-            title="OLVIDE MI CLAVE"
-            onPress={() => {
-              this.props.navigation.navigate('Forget')
-            }}
-            buttonStyle={{ backgroundColor: colors.pink }}
-            containerStyle={{
-              height: 40,
-              width: 200,
-              marginHorizontal: 50,
-              marginVertical: 10,
-            }}
-            titleStyle={{ color: 'white', marginHorizontal: 20 }}
-          />
-          <Button
-            title="INGRESAR"
+        <Button
+          icon={{
+            name: 'arrow-left',
+            type: 'font-awesome-5',
+            size: 30,
+            color: 'black',
+          }}
+          buttonStyle={{
+            backgroundColor: colors.white,
+            borderRadius: 10,
+          }}
+          containerStyle={{
+            backgroundColor: colors.white,
+            elevation: 4,
+            borderRadius: 10,
+            width: 60,
+            paddingVertical: 5
+          }}
+          onPress={() => {
+            this.props.navigation.goBack()
+          }}
+        />
+        <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Iniciar Sesión</Text>
+        <Text style={{fontSize: 16, fontFamily: constants.openSansRegular}}>bienvenido de nuevo</Text>
+        <TextField 
+          label={'correo'} 
+          onChangeText={text => this.setState({email: text})}
+          keyboardType="email-address"
+          value={this.state.email} 
+          style={{marginTop: 40}} /> 
+        <TextField 
+          label={'contraseña'} 
+          keyboardType='visible-password'
+          value={this.state.password} 
+          onChangeText={text => this.setState({password: text})}
+          secureTextEntry={true}
+          style={{marginTop: 17}} /> 
+        <Text 
+          onPress={() => {this.props.navigation.navigate('Forget')}}
+        style={{
+          fontSize: 16, 
+          fontFamily: constants.openSansBold, 
+          color: '#9D7CFF', 
+          textAlign: 'right',
+          marginTop: 13, 
+          marginBottom: 34}}>¿Olvidaste tu contraseña?</Text>
+        <Button
+            title={'Iniciar Sesión'}
             onPress={() => {
               this.login()
             }}
-            buttonStyle={{ backgroundColor: colors.pink }}
+            titleStyle={{
+              color:colors.white,
+              fontSize: 18, 
+              marginVertical: 5,
+              fontFamily: constants.openSansBold
+            }}
+            buttonStyle={{
+              backgroundColor: colors.bluePurple
+            }}
             containerStyle={{
-              height: 40,
-              width: 200,
-              marginHorizontal: 50,
-              marginVertical: 10,
+              width: '100%',
+              borderRadius: 10, 
             }}
-            titleStyle={{ color: 'white', marginHorizontal: 20 }}
           />
-          <Button
-            title="REGISTRARSE"
-            onPress={() => {
-              this.props.navigation.navigate('Register')
-            }}
-            buttonStyle={{ backgroundColor: colors.pink }}
-            containerStyle={{
-              height: 40,
-              width: 200,
-              marginHorizontal: 50,
-              marginVertical: 10,
-            }}
-            titleStyle={{ color: 'white', marginHorizontal: 20 }}
-          />
-        </View>
+          <View style={{alignItems: 'center', marginTop: 50}}>
+            <Image source={images.woman_login}  style={{ resizeMode: 'contain', height: 200}} /> 
+            <Text style={{fontFamily: constants.openSansRegular}}>Es bueno volver a verte 😀</Text>
+          </View>
       </View>
     )
   }
@@ -98,14 +104,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
-    display: 'flex'
+    display: 'flex',
+    padding: 20
   },
-  logo: {
-    alignSelf: 'center',
-    marginTop: 100,
-    width: 150,
-    height: 150
-  }
 })
 
 

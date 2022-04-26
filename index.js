@@ -17,7 +17,7 @@ export default function Main() {
         <SafeAreaProvider>
             <Provider store={store}>
                 <NavigationContainer>
-                <StatusBar backgroundColor="#F95F62" />
+                <StatusBar backgroundColor="#FFFFFF" />
                 <App />
                 </NavigationContainer>
             </Provider>
