@@ -10,6 +10,11 @@ import CupScreen from '../screens/Goal/CupScreen'
 import CurrentGoalScreen from '../screens/Goal/CurrentGoalScreen'
 import EvolutionScreen from '../screens/Goal/EvolutionScreen'
 import SuccessCasesScreen from '../screens/Goal/SuccessCasesScreen'
+import AboutUsScreen from '../screens/Settings/AboutUsScreen'
+import ContactScreen from '../screens/Settings/ContactScreen'
+import NotificationScreen from '../screens/Settings/NotificationScreen'
+import PrivacyScreen from '../screens/Settings/PrivacyScreen'
+import ProfileScreen from '../screens/Settings/ProfileScreen'
 
 const Stack = createStackNavigator()
 
@@ -27,6 +32,11 @@ const MainStack = () => {
             <Stack.Screen name='CurrentGoal' component={CurrentGoalScreen} />
             <Stack.Screen name='Evolution' component={EvolutionScreen} />
             <Stack.Screen name='SuccessCases' component={SuccessCasesScreen} />
+            <Stack.Screen name='AboutUs' component={AboutUsScreen} />
+            <Stack.Screen name='Contact' component={ContactScreen} />
+            <Stack.Screen name='Notification' component={NotificationScreen} />
+            <Stack.Screen name='Privacy' component={PrivacyScreen} />
+            <Stack.Screen name='Profile' component={ProfileScreen} />
         </Stack.Navigator>
     )
 

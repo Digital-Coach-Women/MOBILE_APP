@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { View , StyleSheet, Image, FlatList, TouchableOpacity} from 'react-native'
 import { Text } from '@rneui/themed'
+import {signOut} from '../../store/actions/auth';
 import { colors, constants, images } from '../../utils'
+import { connect } from 'react-redux';
 
 const options = [
-  {name: 'Mi Perfil', route: 'CurrentGoal', image: images.profile_icon},
-  {name: 'Notificación', route: 'Cup', image: images.notification_icon, separator: true},
-  {name: 'Sobre Nosotros', route: 'Evolution', image: images.about_icon},
-  {name: 'Politicas de Privacidad', route: 'SuccessCases', image: images.privacy_icon},
-  {name: 'Contacto', route: 'SuccessCases', image: images.contact_icon, separator: true},
+  {name: 'Mi Perfil', route: 'Profile', image: images.profile_icon},
+  {name: 'Notificación', route: 'Notification', image: images.notification_icon, separator: true},
+  {name: 'Sobre Nosotros', route: 'AboutUs', image: images.about_icon},
+  {name: 'Politicas de Privacidad', route: 'Privacy', image: images.privacy_icon},
+  {name: 'Contacto', route: 'Contact', image: images.contact_icon, separator: true},
   {name: 'Cerrar Sesión',  image: images.logout_icon, exit: true},
 ]
 
@@ -30,7 +32,13 @@ export class SettingsScreen extends Component {
       <View style={styles.container}>
         <Text style={{fontSize: 22, fontFamily: constants.openSansBold, marginBottom:10}}>Mis objetivos</Text>
         {options.map((item, index) => (
-          <Option item={{...item, onPress: () => {this.props.navigation.navigate(item.route)}}} key={index} /> 
+          <Option item={{...item, onPress: () => {
+            if (item.exit === true){
+                this.props.signOut()
+            }else{
+              this.props.navigation.navigate(item.route)
+            }
+          }}} key={index} /> 
         ))}
       </View>
     )
@@ -68,4 +76,16 @@ const styles = StyleSheet.create({
 
 })
 
-export default SettingsScreen
+const mapStateToProps = (state) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen)
