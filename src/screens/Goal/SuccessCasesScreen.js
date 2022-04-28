@@ -2,6 +2,7 @@ import { View, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-nati
 import React, { Component } from 'react'
 import { colors, constants, images } from '../../utils'
 import { Button, Text } from '@rneui/themed';
+import ProfileCaseCard from '../../components/Card/ProfileCaseCard';
 
 
 const routes = [
@@ -10,7 +11,7 @@ const routes = [
   {name: 'Avanzado', topics: ['Introducción al diseño UI', 'Diseño Web y App'], active: false},
 ]
 
-export class ICourseRoadMapScreen extends Component {
+export class SuccessCasesScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -47,27 +48,15 @@ export class ICourseRoadMapScreen extends Component {
             />
           </View>
           <View style={{marginHorizontal: 20}}>
-            <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Diseño UX</Text>  
-            <View style={{backgroundColor: colors.white, elevation: 5, borderRadius: 10, marginTop: 10}}>
-              <Image source={images.ux_cover} style={{width: '100%', height: 300, borderRadius: 10}} />
-            </View>
-            <Text style={{fontFamily: constants.openSansBold, fontSize: 20, marginTop: 12, marginBottom: 20}} >Ruta de aprendizaje</Text>
-              {routes.map((item, index) => {
-                return (
-                  <View key={index.toString()} style={{marginBottom: 10}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <Image source={images.flag} style={item.active ? styles.imageEnable : styles.imageDisable} />
-                          <Text style={{fontSize: 22, fontFamily:constants.openSansBold, textAlignVertical: 'center', marginLeft: 10 }}>{item.name}</Text>
-                      </View>
-                      <View style={{marginLeft: 50}}>
-                          {item.topics.map((topic, iTopic) => 
-                          (
-                            <Text style={{fontSize: 18, fontFamily: constants.openSansRegular}}>* {topic}</Text> 
-                          ))}
-                      </View>
-                  </View>
-                )
-              })}
+            <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17, marginBottom: 20}}>Casos de exito</Text>  
+                {routes.map((item, index, array) => (
+                    <View key={index}>
+                        <ProfileCaseCard item={item}  /> 
+                        {index + 1 !== array.length && 
+                            <View style={{height: 1, width: '100%', marginVertical: 10, backgroundColor: colors.tealishBlue}} />
+                        }
+                    </View>
+                ))}
             </View>
           </ScrollView>
       </View>
@@ -91,4 +80,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ICourseRoadMapScreen;
+export default SuccessCasesScreen;

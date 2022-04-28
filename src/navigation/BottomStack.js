@@ -6,14 +6,14 @@ import ChatScreen from '../screens/Chat/ChatScreen'
 import GoalScreen from '../screens/Goal/GoalScreen'
 import SettingsScreen from '../screens/Settings/SettingsScreen'
 import { colors, images } from '../utils'
-import CourseStack from './CourseStack'
 import InterestScreen from '../screens/Interest/InterestScreen'
+import CoursesScreen from '../screens/Courses/CoursesScreen'
 
 const Tab = createBottomTabNavigator()
 
 const tabArr =[
-    {route: 'InterestStack', icon: images.icon_interest, component: InterestScreen},
-    {route: 'CourseStack', icon: images.icon_course, component: CourseStack},
+    {route: 'Interest', icon: images.icon_interest, component: InterestScreen},
+    {route: 'Course', icon: images.icon_course, component: CoursesScreen},
     {route: 'Goal', icon: images.icon_goal, component: GoalScreen},
     {route: 'Chat', icon: images.icon_chat, component: ChatScreen},
     {route: 'Settings', icon: images.icon_settings, component: SettingsScreen}
