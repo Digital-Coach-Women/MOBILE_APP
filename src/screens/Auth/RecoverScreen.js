@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ToastAndroid, Keyboard } from 'react-native'
+import { View, StyleSheet, Image, ToastAndroid } from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants, images } from '../../utils'
 import { Button, Text } from '@rneui/themed';
@@ -6,34 +6,46 @@ import TextField from '../../components/Input/TextField';
 import { apiAuth } from '../../services';
 import LoadingModal from '../../components/Modal/LoadingModal';
 
-class ForgetScreen extends Component {
+class RecoverScreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      email: __DEV__ ? 'test@gmail.com' : '',
+      code: '',
+      password: '',
+      repeat_password: '',
       isLoad: false
     };
   }
 
-  async forget() {
-    try{
+  async change(){
+    
+    if (this.state.password.trim() === '' || this.state.repeat_password.trim() === '' || this.state.code.trim() === '')
+    {
+        ToastAndroid.show('Complete todos los campos.', ToastAndroid.LONG);
+        return  
+    }
+    if (this.state.password !== this.state.repeat_password){
+      ToastAndroid.show('Las nuevas contraseñas deben coincidir.', ToastAndroid.LONG);
+      return
+    }
+    try {
       this.setState({isLoad: true})
-      Keyboard.dismiss()
-      const response = await apiAuth.forget({email: this.state.email})
-      const {error, result, message } = response
+      const response = await apiAuth.resetPassword({code: this.state.code, password: this.state.password})
       this.setState({isLoad: false})
+      const {error, message, result} = response
       if (error){
         ToastAndroid.show(message, ToastAndroid.LONG);
       }else{
         ToastAndroid.show(message, ToastAndroid.LONG);
+        this.props.navigation.navigate('Login')
       }
-    }catch (e) {
+    }catch (e){
       this.setState({isLoad: false})
       console.log('error', e)
     }
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
@@ -60,18 +72,29 @@ class ForgetScreen extends Component {
             this.props.navigation.goBack()
           }}
         />
-        <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Olvide mi contraseña</Text>
-        <Text style={{fontSize: 16, fontFamily: constants.openSansRegular}}>Recibiras un correo para que puedas restablecer tu contraseña</Text>
+        <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Actualizar contraseña</Text>
         <TextField 
-          label={'correo'} 
-          onChangeText={text => this.setState({email: text})}
-          keyboardType="email-address"
-          value={this.state.email} 
+          label={'codigo'} 
+          onChangeText={text => this.setState({code: text})}
+          keyboardType="number-pad"
+          value={this.state.code} 
           style={{marginTop: 40}} /> 
+           <TextField 
+          label={'nueva contraseña'} 
+          onChangeText={text => this.setState({password: text})}
+          value={this.state.password} 
+          keyboardType='visible-password'
+          style={{marginTop: 17}} /> 
+           <TextField 
+          label={'repetir contraseña'} 
+          keyboardType='visible-password'
+          onChangeText={text => this.setState({repeat_password: text})}
+          value={this.state.repeat_password} 
+          style={{marginTop: 17}} /> 
         <Button
-            title={'Enviar'}
+            title={'Actualizar'}
             onPress={async () => {
-                await this.forget()
+              await this.change()
             }}
             titleStyle={{
               color:colors.white,
@@ -88,30 +111,6 @@ class ForgetScreen extends Component {
               borderRadius: 10, 
             }}
           />
-            <Button
-                title={'Ingresar codigo de correo'}
-                onPress={() => {
-                  this.props.navigation.navigate('Recover')
-                }}
-                titleStyle={{
-                  color:  '#D59BFF',
-                  fontSize: 18, 
-                  marginVertical: 5,
-                  fontFamily: constants.openSansBold
-                }}
-                buttonStyle={{
-                  backgroundColor: '#EBE4FF',
-                }}
-                containerStyle={{
-                    width: '100%',
-                    marginTop: 10,
-                    borderRadius: 10, 
-                  }}
-                />
-          <View style={{height: constants.height, position: 'absolute',justifyContent: 'flex-end', alignItems: 'center'}}>
-            <Image source={images.forget} style={{resizeMode: 'cover', alignSelf: 'center', width: constants.width, height: 300}} />
-          </View>
-
       </View>
     )
   }
@@ -128,4 +127,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ForgetScreen;
+export default RecoverScreen;

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View , StyleSheet, Image, FlatList, TouchableOpacity} from 'react-native'
 import { Text } from '@rneui/themed'
 import {signOut} from '../../store/actions/auth';
-import { colors, constants, images } from '../../utils'
+import { colors, constants, images, storage } from '../../utils'
 import { connect } from 'react-redux';
 
 const options = [
@@ -32,8 +32,9 @@ export class SettingsScreen extends Component {
       <View style={styles.container}>
         <Text style={{fontSize: 22, fontFamily: constants.openSansBold, marginBottom:10}}>Mis objetivos</Text>
         {options.map((item, index) => (
-          <Option item={{...item, onPress: () => {
+          <Option item={{...item, onPress: async () => {
             if (item.exit === true){
+                await storage.clearData()
                 this.props.signOut()
             }else{
               this.props.navigation.navigate(item.route)

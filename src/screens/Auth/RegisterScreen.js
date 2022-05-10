@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ScrollView } from 'react-native'
+import { View, StyleSheet, Image, ScrollView, ToastAndroid } from 'react-native'
 import React, { Component } from 'react'
 import { Button, Text } from '@rneui/themed';
 import CheckBox from '@react-native-community/checkbox';
@@ -6,6 +6,8 @@ import { colors, constants, functions, images } from '../../utils'
 import TextField from '../../components/Input/TextField';
 import TextFieldDatePicker from '../../components/Input/TextFieldDatePicker';
 import funcitons from '../../utils/funcitons';
+import { apiAuth } from '../../services';
+import LoadingModal from '../../components/Modal/LoadingModal';
 
 export class RegisterScreen extends Component {
 
@@ -21,12 +23,32 @@ export class RegisterScreen extends Component {
       date: new Date(),
       linkedin: __DEV__ ? 'Juan Perez Torres' : '',
       terms: false,
+      isLoad: false
     };
+  }
+
+  async register(){
+    try {
+      this.setState({isLoad: true})
+      const response = await apiAuth.register({names: this.state.names, last_name: this.state.fatherLastName, mother_last_name: this.state.motherLastName, email: this.state.email, password: this.state.password, birthdate: this.state.date.toString(), linkedin: this.state.linkedin })
+      this.setState({isLoad: false})
+      const {error, message, result} = response
+      if (error){
+        ToastAndroid.show(message, ToastAndroid.LONG)
+      }else{
+        ToastAndroid.show(message, ToastAndroid.LONG)
+        this.props.navigation.navigate('Welcome')
+      }
+    }catch (e){
+      this.setState({isLoad: false})
+      console.error('error', e)
+    }
   }
 
   render() {
     return (
       <ScrollView style={styles.container}>
+        <LoadingModal isVisible={this.state.isLoad} /> 
         <Button
           icon={{
             name: 'arrow-left',
@@ -101,8 +123,8 @@ export class RegisterScreen extends Component {
         </View>
         <Button
             title={'Registrarse'}
-            onPress={() => {
-              this.props.navigation.goBack()
+            onPress={async () => {
+              await this.register()
             }}
             titleStyle={{
               color:colors.white,

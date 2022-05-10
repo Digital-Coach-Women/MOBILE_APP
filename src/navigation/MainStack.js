@@ -15,6 +15,7 @@ import ContactScreen from '../screens/Settings/ContactScreen'
 import NotificationScreen from '../screens/Settings/NotificationScreen'
 import PrivacyScreen from '../screens/Settings/PrivacyScreen'
 import ProfileScreen from '../screens/Settings/ProfileScreen'
+import ChatSessionScreen from '../screens/Chat/ChatSessionScreen'
 
 const Stack = createStackNavigator()
 
@@ -37,6 +38,7 @@ const MainStack = () => {
             <Stack.Screen name='Notification' component={NotificationScreen} />
             <Stack.Screen name='Privacy' component={PrivacyScreen} />
             <Stack.Screen name='Profile' component={ProfileScreen} />
+            <Stack.Screen name='ChatSession' component={ChatSessionScreen} />
         </Stack.Navigator>
     )
 

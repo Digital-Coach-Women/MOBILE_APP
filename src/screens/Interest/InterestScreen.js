@@ -24,7 +24,7 @@ export class InterestScreen extends Component {
 
   renderItem = ({item, index, array}) => {
     return (
-      <EspecialityItem key={index} item={{...item, onPress: () => {this.props.navigation.navigate('ICourse')}}} /> 
+      <EspecialityItem key={index.toString()} item={{...item, onPress: () => {this.props.navigation.navigate('ICourse')}}} /> 
     )
   }
 

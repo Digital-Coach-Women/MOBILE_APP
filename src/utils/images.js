@@ -40,4 +40,8 @@ export default  {
     notification_icon: require(PRE_PATH + 'notificationIcon.png'),
     privacy_icon: require(PRE_PATH + 'privacyIcon.png'),
     contact_icon: require(PRE_PATH + 'contactIcon.png'),
+    woman_chat: require(PRE_PATH + 'womanChat.png'),
+    alice_bot: require(PRE_PATH + 'aliceBot.png'),
+    mail: require(PRE_PATH + 'mail.png'),
+    send: require(PRE_PATH + 'send.png'),
 }
