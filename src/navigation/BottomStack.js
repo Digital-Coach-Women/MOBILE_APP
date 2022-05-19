@@ -79,7 +79,7 @@ const BottomStack = () => {
         >
             {tabArr.map((item, index) => {
                 return (
-                    <Tab.Screen name={item.route} component={item.component}  
+                    <Tab.Screen key={index.toString()} name={item.route} component={item.component}  
                         options={{
                             tabBarShowLabel: false,
                             tabBarIcon: ({color, focused}) => (

@@ -1,6 +1,7 @@
 import { View, StyleSheet, Image, ScrollView } from 'react-native'
 import React, { Component } from 'react'
-import { Button, Text } from '@rneui/themed';
+import { Text } from '@rneui/themed';
+import {Button} from '@rneui/base'
 import { colors, constants, functions, images } from '../../utils'
 import TextField from '../../components/Input/TextField';
 import TextFieldDatePicker from '../../components/Input/TextFieldDatePicker';

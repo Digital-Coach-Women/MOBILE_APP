@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View , StyleSheet, Image, FlatList} from 'react-native'
+import { View , StyleSheet, Image, FlatList, ToastAndroid, ActivityIndicator} from 'react-native'
 import { Text } from '@rneui/themed'
 import { colors, constants, images } from '../../utils'
 import EspecialityItem from '../../components/Option/EspecialityItem'
+import { apiSpeciality } from '../../services'
 
 const options = [
   {image: images.marketing, text: 'Marketing', levels: 3, navigation: ''},
@@ -14,6 +15,8 @@ export class InterestScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoad: true,
+      data: []
     };
     // this.controller = new AbortController();
   }
@@ -24,8 +27,28 @@ export class InterestScreen extends Component {
 
   renderItem = ({item, index, array}) => {
     return (
-      <EspecialityItem key={index.toString()} item={{...item, onPress: () => {this.props.navigation.navigate('ICourse')}}} /> 
+      <EspecialityItem key={index.toString()} item={{...item, onPress: () => {this.props.navigation.navigate('ICourse', {id: item.id})}}} /> 
     )
+  }
+
+  getSpecialities = async () => {
+    try {
+      const response = await apiSpeciality.getAll()
+      const {message, result, error} = response
+      if (error){
+        this.setState({isLoad: false})
+        ToastAndroid.show(message, ToastAndroid.SHORT)
+      }else{
+        this.setState({isLoad: false, data: result.data})
+      }
+    }catch(e){
+      this.setState({isLoad: false})
+      ToastAndroid.show(e, ToastAndroid.SHORT)
+    }
+  }
+
+  componentDidMount = async () => {
+    await this.getSpecialities()
   }
 
   render() {
@@ -41,13 +64,19 @@ export class InterestScreen extends Component {
         <View style={{height: 30}} /> 
         <Text style={{fontSize: 18, fontFamily: constants.openSansBold}}>Dale un vistazo a todos nuestras especialidades disponibles para ti.</Text>
         </View>
+        {this.state.isLoad ? 
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <ActivityIndicator size="large" color={colors.magenta} />
+          </View>
+        :
         <FlatList 
-          contentContainerStyle={{paddingHorizontal: 20, paddingVertical:10 }}
-          ItemSeparatorComponent={() => <View style={{height: 20}} /> }
-          renderItem={this.renderItem}
-          data={options}
-          keyExtractor={(item, index) => index}
-        /> 
+        contentContainerStyle={{paddingHorizontal: 20, paddingVertical:10, paddingBottom:100 }}
+        ItemSeparatorComponent={() => <View style={{height: 20}} /> }
+        renderItem={this.renderItem}
+        data={this.state.data}
+        keyExtractor={(item, index) => index.toString()}
+          /> 
+        }
       </View>
     )
   }

@@ -5,7 +5,7 @@ import { colors, constants, images } from '../../utils'
 
 const PartnerCard = ({item}) => {
 
-    const {name, email, onPress} = item
+    const {name, last_name, email, onPress, isYou} = item
 
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={1} style={{borderRadius: 10, elevation: 5, backgroundColor: colors.white, padding: 10}}>
@@ -16,14 +16,17 @@ const PartnerCard = ({item}) => {
                 </View>
                 <View style={{justifyContent: 'center', marginLeft: 10}}>
                     <Text style={{fontFamily: constants.openSansBold, fontSize: 16}}>
-                        {name}
+                        {`${name} ${last_name}`}
                     </Text>
                     <Text style={{color: '#6695FF', fontFamily: constants.openSansSemiBold }} >{email}</Text>
                 </View>
             </View>
-            <View style={{justifyContent: 'center'}}>
-                <Image source={images.chat} style={{resizeMode: 'contain', width: 30, height: 30}} /> 
-            </View>
+            {
+              isYou === false && 
+                <View style={{justifyContent: 'center'}}>
+                    <Image source={images.chat} style={{resizeMode: 'contain', width: 30, height: 30}} /> 
+                </View>
+            }
       </View>
     </TouchableOpacity>
   )

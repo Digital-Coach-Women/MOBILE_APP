@@ -14,6 +14,7 @@ export default {
             globals.last_name = ''
             globals.mother_last_name = ''
             globals.email = ''
+            globals.id = 0
             return true
         }catch {
             return false
@@ -31,11 +32,12 @@ export default {
     getProfile: async () => {
         try{
             const jsonProfile = await AsyncStorage.getItem(PROFILE)
-            const profile = jsonProfile != null ? JSON.parse(jsonProfile) : {name: '', last_name: '', email: '', mother_last_name: ''}
+            const profile = jsonProfile != null ? JSON.parse(jsonProfile) : {name: '', last_name: '', email: '', mother_last_name: '', id: 0}
             globals.name = profile.name
             globals.last_name = profile.last_name
             globals.mother_last_name = profile.mother_last_name
             globals.email = profile.email
+            globals.id = profile.id
             return profile
         }catch {
             return {name: '', lastName: '', email: ''}

@@ -11,6 +11,7 @@ export default {
             headers = { Authorization: `Bearer ${globals.token}` }
         }
         headers["Access-Control-Allow-Origin"] = "*"
+        headers['Content-Type'] = ['application/json']
         try {
             const result = await fetch(`${ROOT}${url}`, {
                 headers: headers,
@@ -49,7 +50,7 @@ export default {
             return { unauthorized: true, error: true, message: 'ERROR SERVICE' }
         }
     },
-    async put({ url = '', request = {} } = {}) {
+    async put({ url = '', request = {} , withToken = true} = {}) {
         console.log('PUT => ', url)
         console.log('REQ => ', request)
         let headers = {}
@@ -68,13 +69,13 @@ export default {
             const data = await result.json()
             return { ...data, unauthorized: false };
         }
-        catch 
+        catch (error)
         {
-            console.error(error);
+            console.log('error', error);
             return { unauthorized: true, error: true, message: 'ERROR SERVICE' }
         }
     },
-    async delete(url) {
+    async delete({url = '', withToken = true} = {}) {
         console.log('DELETE => ', url)
         console.log('REQ => ', request)
         let headers = {}
@@ -92,7 +93,7 @@ export default {
             const data = await result.json()
             return { ...data, unauthorized: false };
         }
-        catch 
+        catch (error)
         {
             console.error(error);
             return { unauthorized: true, error: true, message: 'ERROR SERVICE' }

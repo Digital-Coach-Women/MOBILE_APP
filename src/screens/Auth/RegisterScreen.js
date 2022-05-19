@@ -1,6 +1,7 @@
 import { View, StyleSheet, Image, ScrollView, ToastAndroid } from 'react-native'
 import React, { Component } from 'react'
-import { Button, Text } from '@rneui/themed';
+import { Text } from '@rneui/themed';
+import {Button} from '@rneui/base'
 import CheckBox from '@react-native-community/checkbox';
 import { colors, constants, functions, images } from '../../utils'
 import TextField from '../../components/Input/TextField';
@@ -29,8 +30,12 @@ export class RegisterScreen extends Component {
 
   async register(){
     try {
+      if (this.state.terms === false){
+        ToastAndroid.show('Falta aceptar los terminos y condiciones', ToastAndroid.SHORT)
+        return
+      }
       this.setState({isLoad: true})
-      const response = await apiAuth.register({names: this.state.names, last_name: this.state.fatherLastName, mother_last_name: this.state.motherLastName, email: this.state.email, password: this.state.password, birthdate: this.state.date.toString(), linkedin: this.state.linkedin })
+      const response = await apiAuth.register({names: this.state.names, last_name: this.state.fatherLastName, mother_last_name: this.state.motherLastName, email: this.state.email, password: this.state.password, birthdate: this.state.birthdate, linkedin: this.state.linkedin })
       this.setState({isLoad: false})
       const {error, message, result} = response
       if (error){

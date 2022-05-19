@@ -1,7 +1,8 @@
 import { View, StyleSheet, Image, ToastAndroid } from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants, images } from '../../utils'
-import { Button, Text } from '@rneui/themed';
+import { Text } from '@rneui/themed';
+import {Button} from '@rneui/base'
 import TextField from '../../components/Input/TextField';
 import { apiAuth } from '../../services';
 import LoadingModal from '../../components/Modal/LoadingModal';

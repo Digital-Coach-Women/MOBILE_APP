@@ -1,7 +1,8 @@
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native'
 import React, { Component } from 'react'
-import { colors, constants, images } from '../../utils'
-import { Button, Text } from '@rneui/themed';
+import { colors, constants, globals, images } from '../../utils'
+import { Text } from '@rneui/themed';
+import {Button} from '@rneui/base'
 
 
 const routes = [
@@ -47,22 +48,22 @@ export class ICourseRoadMapScreen extends Component {
             />
           </View>
           <View style={{marginHorizontal: 20}}>
-            <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Diseño UX</Text>  
+            <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>{globals.speciality.name}</Text>  
             <View style={{backgroundColor: colors.white, elevation: 5, borderRadius: 10, marginTop: 10}}>
-              <Image source={images.ux_cover} style={{width: '100%', height: 300, borderRadius: 10}} />
+              <Image source={{uri: globals.speciality.image}} style={{width: '100%', height: 300, borderRadius: 10}} />
             </View>
             <Text style={{fontFamily: constants.openSansBold, fontSize: 20, marginTop: 12, marginBottom: 20}} >Ruta de aprendizaje</Text>
-              {routes.map((item, index) => {
+              {globals.speciality.levels.map((item, index) => {
                 return (
                   <View key={index.toString()} style={{marginBottom: 10}}>
                     <View style={{flexDirection: 'row'}}>
-                        <Image source={images.flag} style={item.active ? styles.imageEnable : styles.imageDisable} />
+                        <Image source={images.flag} style={item.is_matriculated ? styles.imageEnable : styles.imageDisable} />
                           <Text style={{fontSize: 22, fontFamily:constants.openSansBold, textAlignVertical: 'center', marginLeft: 10 }}>{item.name}</Text>
                       </View>
                       <View style={{marginLeft: 50}}>
-                          {item.topics.map((topic, iTopic) => 
+                          {item.courses.map((course, iCourse) => 
                           (
-                            <Text style={{fontSize: 18, fontFamily: constants.openSansRegular}}>* {topic}</Text> 
+                            <Text key={iCourse.toString()} style={{fontSize: 18, fontFamily: constants.openSansRegular}}>* {course.title}</Text> 
                           ))}
                       </View>
                   </View>

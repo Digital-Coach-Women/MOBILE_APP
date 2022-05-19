@@ -3,10 +3,10 @@ import React from 'react'
 import { colors, constants } from '../../utils'
 
 const ChatCard = ({item}) => {
-    const {isYou, message} = item
+  const {is_transmitter, message, date_messsage} = item
   return (
-    <View style={{flexDirection: 'row', justifyContent:isYou ? 'flex-end' :'flex-start'}}>
-        <View style={{width:250, backgroundColor: isYou ? colors.tealishBlueIntense : colors.tealishBlue, padding: 10, borderRadius: 10 }}>
+    <View style={{flexDirection: 'row', justifyContent: is_transmitter ? 'flex-end' :'flex-start'}}>
+        <View style={{width:250, backgroundColor: is_transmitter ? colors.tealishBlueIntense : colors.tealishBlue, padding: 10, borderRadius: 10 }}>
           <Text style={{fontFamily: constants.openSansSemiBold, fontSize: 18, flexWrap: 'wrap'}}>{message}</Text>
         </View>
     </View>

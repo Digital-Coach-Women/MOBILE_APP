@@ -6,5 +6,8 @@ export default {
     last_name: '',
     mother_last_name: '',
     email: '',
-    uid: ''
+    uid: '',
+    speciality: {},
+    level: {},
+    course: {}
 }

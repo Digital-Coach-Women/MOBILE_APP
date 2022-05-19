@@ -1,6 +1,7 @@
 import { View, StyleSheet } from 'react-native'
 import React, { Component } from 'react'
-import { Text, Button } from '@rneui/themed'
+import { Text } from '@rneui/themed'
+import {Button} from '@rneui/base'
 import LottieView from 'lottie-react-native';
 
 import { colors, constants } from '../../utils'

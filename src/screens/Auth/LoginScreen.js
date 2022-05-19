@@ -1,7 +1,8 @@
 import { View, StyleSheet, Image, ToastAndroid, Keyboard } from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants, images, storage } from '../../utils'
-import { Button, Text } from '@rneui/themed';
+import { Text } from '@rneui/themed';
+import {Button} from '@rneui/base'
 import { signIn} from '../../store/actions/auth';
 import TextField from '../../components/Input/TextField';
 import { connect } from 'react-redux';
@@ -15,7 +16,7 @@ import LoadingModal from '../../components/Modal/LoadingModal';
   constructor(props) {
     super(props);
     this.state = {
-      email: __DEV__ ? 'test@gmail.com' : '',
+      email: __DEV__ ? 'bot.test.dev@gmail.com' : '',
       password: __DEV__ ? 'password' : '',
       isLoad: false
     };
@@ -38,7 +39,8 @@ import LoadingModal from '../../components/Modal/LoadingModal';
         const {id, name, last_name, mother_last_name, token, uid, email} = result
         await storage.setProfile({id, name, last_name, mother_last_name, email})
         await storage.setToken(token)
-        await auth().signInWithCustomToken(uid)
+        const loginFirebase = await auth().signInWithCustomToken(uid)
+        console.log('loginfirebase => ', loginFirebase)
         this.props.signIn(token)
       }
     }catch (e){

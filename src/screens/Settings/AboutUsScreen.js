@@ -1,7 +1,8 @@
 import { View, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants, images } from '../../utils'
-import { Button, Text } from '@rneui/themed';
+import { Text } from '@rneui/themed';
+import {Button} from '@rneui/base'
 import LottieView from 'lottie-react-native';
 
 export class AboutUsScreen extends Component {

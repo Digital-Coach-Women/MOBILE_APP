@@ -1,7 +1,8 @@
 import { View, StyleSheet} from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants } from '../../utils'
-import { Button, Text, Switch } from '@rneui/themed';
+import { Text, Switch } from '@rneui/themed';
+import {Button} from '@rneui/base'
 
 export class NotificationScreen extends Component {
 
