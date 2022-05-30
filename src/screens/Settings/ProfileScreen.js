@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ScrollView } from 'react-native'
+import { View, StyleSheet, Image, ScrollView, ToastAndroid, ActivityIndicator } from 'react-native'
 import React, { Component } from 'react'
 import { Text } from '@rneui/themed';
 import {Button} from '@rneui/base'
@@ -6,6 +6,8 @@ import { colors, constants, functions, images } from '../../utils'
 import TextField from '../../components/Input/TextField';
 import TextFieldDatePicker from '../../components/Input/TextFieldDatePicker';
 import funcitons from '../../utils/funcitons';
+import { apiSettings } from '../../services';
+import LoadingModal from '../../components/Modal/LoadingModal'
 
 export class ProfileScreen extends Component {
 
@@ -16,16 +18,93 @@ export class ProfileScreen extends Component {
       fatherLastName: __DEV__ ? 'Perez' : '',
       motherLastName: __DEV__ ? 'Torres' : '',
       email: __DEV__ ? 'test@gmail.com' : '',
-      password: __DEV__ ? 'password' : '',
+      password: __DEV__ ? '' : '',
       birthdate: functions.formatDate(new Date()),
       date: new Date(),
       linkedin: __DEV__ ? 'Juan Perez Torres' : '',
+      isLoad: true,
+      loadService: false
     };
+  }
+
+  getProfile = async () => {
+    try {
+      const response = await apiSettings.getProfile()
+      console.log('response => ', response)
+      const {result, message, error} = response
+      if (error){
+        this.setState({isLoad: false})
+        ToastAndroid.show(message, ToastAndroid.SHORT)
+      }else{
+        const {name, last_name, mother_last_name, birthdate, email, linkedin} = result
+        this.setState({names: name, fatherLastName: last_name, motherLastName: mother_last_name, date: birthdate, birthdate: funcitons.formatDate(new Date(birthdate)), email, linkedin}, () => {this.setState({isLoad: false})})
+      }
+    }catch (e){
+      this.setState({isLoad: false})
+      ToastAndroid.show(e, ToastAndroid.SHORT)
+    }
+  }
+
+  componentDidMount = async () => {
+    await this.getProfile()
+  }
+
+  updateProfile = async () => {
+    try {
+      const {names, fatherLastName, motherLastName, birthdate, email, linkedin, password} = this.state
+      if (names.trim() === '' || fatherLastName.trim() === '' || motherLastName.trim() === '' || birthdate === '', email.trim() === ''){
+        ToastAndroid.show("Complete todos los campos.", ToastAndroid.SHORT)
+        return
+      }
+      this.setState({loadService: true})
+      const response = await apiSettings.updateProfile({names: names, last_name: fatherLastName, mother_last_name: motherLastName, birthdate: birthdate, email: email, linkedin: linkedin, password: password})
+      const { message, error } = response
+      this.setState({loadService: false})
+      if (error){
+        ToastAndroid.show(message, ToastAndroid.SHORT)
+      }else{
+        ToastAndroid.show(message, ToastAndroid.SHORT)
+      }
+    }catch (e){
+      this.setState({loadService: false})
+      ToastAndroid.show(e, ToastAndroid.SHORT)
+    }
   }
 
   render() {
     return (
-        <View style={{backgroundColor: colors.white, display: 'flex', flex:1}}>
+    <View style={{backgroundColor: colors.white, display: 'flex', flex:1}}>
+      <LoadingModal isVisible={this.state.loadService} /> 
+      {this.state.isLoad ? 
+      <>
+       <Button
+          icon={{
+            name: 'arrow-left',
+            type: 'font-awesome-5',
+            size: 30,
+            color: 'black',
+          }}
+          buttonStyle={{
+            backgroundColor: colors.white,
+            borderRadius: 10,
+          }}
+          containerStyle={{
+            backgroundColor: colors.white,
+            elevation: 4,
+            borderRadius: 10,
+            width: 60,
+            paddingVertical: 5,
+            margin: 20
+          }}
+          onPress={() => {
+            this.props.navigation.goBack()
+          }}
+        />
+        <View style={{justifyContent: 'center', display: 'flex', flex: 1}}>
+            <ActivityIndicator color={colors.magenta} size="large" /> 
+        </View>
+      </>
+      :
       <ScrollView style={styles.container}>
         <Button
           icon={{
@@ -43,18 +122,21 @@ export class ProfileScreen extends Component {
             elevation: 4,
             borderRadius: 10,
             width: 60,
-            paddingVertical: 5
+            paddingVertical: 5,
+            marginLeft: 20,
+            marginTop: 20
           }}
           onPress={() => {
             this.props.navigation.goBack()
           }}
         />
+        <View style={{marginHorizontal: 20}}>
         <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Mi Perfil</Text>
         <TextField 
           label={'nombres'} 
           onChangeText={text => this.setState({names: text})}
           value={this.state.names} 
-          style={{marginTop: 30}} /> 
+          style={{marginTop: 25}} /> 
           <TextField 
           label={'apellido paterno'} 
           onChangeText={text => this.setState({fatherLastName: text})}
@@ -91,8 +173,8 @@ export class ProfileScreen extends Component {
           style={{marginTop: 17}} /> 
         <Button
             title={'Guardar'}
-            onPress={() => {
-              this.props.navigation.goBack()
+            onPress={async () => {
+              await this.updateProfile()
             }}
             titleStyle={{
               color:colors.white,
@@ -109,7 +191,9 @@ export class ProfileScreen extends Component {
               borderRadius: 10, 
             }}
           />
+          </View>
       </ScrollView>
+      }
       </View>
     )
   }
@@ -120,7 +204,7 @@ export class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    padding: 20
+    // margin: 20
   },
 })
 

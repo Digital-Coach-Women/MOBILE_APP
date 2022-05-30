@@ -37,6 +37,13 @@ export class ChatScreen extends Component {
 
   componentDidMount = async () => {
     await this.getContacts()
+    this._unsubscribe = this.props.navigation.addListener('focus', async () => {
+      await this.getContacts()
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   renderItem = ({index, item, separators}) => {
@@ -44,12 +51,12 @@ export class ChatScreen extends Component {
     const {id, name, last_name, mother_last_name} = item.receiver
 
     return (
-    <View key={index.toString()}>
+    <View key={id.toString()}>
       {index === 0 && 
-      <>
+      <View>
         <BotChatOption onPress={() => {}}/> 
         <View style={{height: 5, borderRadius: 30, backgroundColor: colors.tealishBlue, marginTop: 10, alignSelf: 'center', width: 200}} /> 
-      </>
+      </View>
       }
       <PartnerChatOption item={item} onPress={() => this.props.navigation.navigate('ChatSession', {
         chatId: item.id,
@@ -74,7 +81,7 @@ export class ChatScreen extends Component {
         :
           <FlatList 
             renderItem={this.renderItem}
-            keyExtractor={(index) => index}
+            keyExtractor={(item, index) => index.toString()}
             data={this.state.contacts}
             contentContainerStyle={{paddingHorizontal: 20}}
           />

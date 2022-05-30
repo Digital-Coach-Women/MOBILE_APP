@@ -1,9 +1,10 @@
-import { View, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList} from 'react-native'
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity, FlatList, ToastAndroid, ActivityIndicator} from 'react-native'
 import React, { Component } from 'react'
 import { colors, constants, images } from '../../utils'
 import { Text } from '@rneui/themed';
 import {Button} from '@rneui/base'
 import CupCard from '../../components/Card/CupCard';
+import { apiLevel } from '../../services';
 
 const myCups = [
     {name: 'Basico', active: true},
@@ -24,7 +25,31 @@ export class CupScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoad: true,
+      trophiesComplete: [],
+      trophiesIncomplete: []
     };
+  }
+
+  getTrophies =  async () => {
+    try {
+      const response = await apiLevel.getTrophies()
+      const {result, error, message } = response
+      if (error){
+        this.setState({isLoad:false})
+        ToastAndroid.show(message, ToastAndroid.SHORT)
+      }else{
+        const {trophies_wins, trophies_missing} = result
+        this.setState({trophiesComplete: trophies_wins.map(item => ({...item, active: true})), trophiesIncomplete: trophies_missing.map(item => ({...item, active: false}))}, () => {this.setState({isLoad:false})})
+      }
+    }catch (e){
+      this.setState({isLoad:false})
+      ToastAndroid.show(e, ToastAndroid.SHORT)
+    }
+  }
+
+  componentDidMount = async () => {
+    await this.getTrophies()
   }
 
   renderItem = ({item, index, array}) => {
@@ -35,8 +60,8 @@ export class CupScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <View style={{paddingHorizontal: 20, paddingTop: 20}}>
-            <Button
+        <View style={{paddingHorizontal: 20, paddingTop: 20}}>
+        <Button
             icon={{
                 name: 'arrow-left',
                 type: 'font-awesome-5',
@@ -58,7 +83,18 @@ export class CupScreen extends Component {
                 this.props.navigation.goBack()
             }}
             />
-            <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17, marginBottom: 5}}>Mis Logros</Text>  
+            
+        </View>
+        {
+          this.state.isLoad 
+          ? 
+          <View style={{flex: 1, justifyContent: 'center', display: 'flex'}}>
+            <ActivityIndicator color={colors.magenta} size="large" /> 
+            </View>
+          :
+          <>
+          <View style={{paddingHorizontal: 20}}>
+          <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17, marginBottom: 5}}>Mis Logros</Text>  
             <Text style={{ fontFamily: constants.openSansSemiBold, fontSize: 16}}>
             Podras ver todos los logros que han 
     conseguido y lo que aun pueden conseguir.
@@ -69,7 +105,7 @@ export class CupScreen extends Component {
         <FlatList 
         contentContainerStyle={{ padding: 20}}
         ItemSeparatorComponent={() => (<View style={{width: 20}} /> )}
-        data={myCups} 
+        data={this.state.trophiesComplete} 
         keyExtractor={(item, index) => index}  
         renderItem={this.renderItem} horizontal/> 
         </View>
@@ -78,11 +114,12 @@ export class CupScreen extends Component {
         <FlatList 
         contentContainerStyle={{ padding: 20}}
         ItemSeparatorComponent={() => (<View style={{width: 20}} /> )}
-        data={soonCups} 
+        data={this.state.trophiesIncomplete} 
         keyExtractor={(item, index) => index}  
         renderItem={this.renderItem} horizontal/> 
         </View>
-
+        </>
+        }
       </View>
     )
   }

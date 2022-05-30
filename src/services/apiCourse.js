@@ -9,4 +9,8 @@ export default {
         const url = `specialities/levels/courses/${id}/lesson`;
         return await apiDefault.put({ url, request: {order: order, is_finish: isFinish} })
     },
+    async getStatus() {
+        const url = `specialities/levels/courses/status`;
+        return await apiDefault.get({ url })
+    },
 };

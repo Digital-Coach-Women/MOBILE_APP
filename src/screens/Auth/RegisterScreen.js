@@ -70,12 +70,14 @@ export class RegisterScreen extends Component {
             elevation: 4,
             borderRadius: 10,
             width: 60,
-            paddingVertical: 5
+            paddingVertical: 5,
+            marginTop: 20, marginLeft: 20
           }}
           onPress={() => {
             this.props.navigation.goBack()
           }}
         />
+        <View style={{paddingHorizontal: 20}}>
         <Text style={{fontSize: 28, fontFamily: constants.openSansBold, marginTop: 17}}>Crea tu cuenta</Text>
         <Text style={{fontSize: 16, fontFamily: constants.openSansRegular}}>y se parte de nuestro equipo</Text>
         <TextField 
@@ -149,7 +151,7 @@ export class RegisterScreen extends Component {
           <View>
             <Image source={images.register}  style={{alignSelf: 'center', resizeMode: 'contain', height: 145}} />
           </View>
-
+          </View>
       </ScrollView>
     )
   }
@@ -160,7 +162,7 @@ export class RegisterScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    padding: 20
+    // padding: 20
   },
 })
 

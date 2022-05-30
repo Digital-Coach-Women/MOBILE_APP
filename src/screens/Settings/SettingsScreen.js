@@ -6,8 +6,8 @@ import { colors, constants, images, storage } from '../../utils'
 import { connect } from 'react-redux';
 
 const options = [
-  {name: 'Mi Perfil', route: 'Profile', image: images.profile_icon},
-  {name: 'Notificación', route: 'Notification', image: images.notification_icon, separator: true},
+  {name: 'Mi Perfil', route: 'Profile', image: images.profile_icon, separator: true},
+  // {name: 'Notificación', route: 'Notification', image: images.notification_icon, separator: true},
   {name: 'Sobre Nosotros', route: 'AboutUs', image: images.about_icon},
   {name: 'Politicas de Privacidad', route: 'Privacy', image: images.privacy_icon},
   {name: 'Contacto', route: 'Contact', image: images.contact_icon, separator: true},

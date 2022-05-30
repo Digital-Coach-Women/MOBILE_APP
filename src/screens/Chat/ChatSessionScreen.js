@@ -142,7 +142,7 @@ export class ChatSessionScreen extends Component {
           <>
             <FlatList 
               inverted
-              contentContainerStyle={{paddingHorizontal: 20, paddingVertical:20 }}
+              contentContainerStyle={{paddingHorizontal: 0, paddingVertical:20 }}
               ItemSeparatorComponent={() => <View style={{height: 5}} /> }
               renderItem={this.renderItem}
               data={this.state.chats}

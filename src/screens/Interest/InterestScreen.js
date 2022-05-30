@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View , StyleSheet, Image, FlatList, ToastAndroid, ActivityIndicator} from 'react-native'
 import { Text } from '@rneui/themed'
-import { colors, constants, images } from '../../utils'
+import { colors, constants, globals, images } from '../../utils'
 import EspecialityItem from '../../components/Option/EspecialityItem'
 import { apiSpeciality } from '../../services'
 
@@ -59,7 +59,7 @@ export class InterestScreen extends Component {
             <View style={{borderWidth: 1, borderColor: 'gray', borderRadius: 10}}>
               <Image source={images.profile} style={{resizeMode: 'contain', width: 70, height: 70}} /> 
             </View>
-            <Text style={{fontFamily: constants.openSansBold, fontSize: 20, marginLeft: 10, width: 150}}>Hola Juana Ramos Santos</Text>
+            <Text style={{fontFamily: constants.openSansBold, fontSize: 20, marginLeft: 10, width: 150}}>Hola {globals.name} {globals.last_name} {globals.mother_last_name}</Text>
           </View>
         <View style={{height: 30}} /> 
         <Text style={{fontSize: 18, fontFamily: constants.openSansBold}}>Dale un vistazo a todos nuestras especialidades disponibles para ti.</Text>

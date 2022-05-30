@@ -17,4 +17,8 @@ export default {
         const url = `specialities/levels/${id}/partners`;
         return await apiDefault.get({ url })
     },
+    async getTrophies() {
+        const url = `specialities/levels/trophies`;
+        return await apiDefault.get({ url })
+    },
 };

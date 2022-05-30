@@ -55,7 +55,7 @@ export default {
     setProfile: async (profile) => {
         try{
             const {id, name, last_name, mother_last_name, email} = profile
-            globals.name = id
+            globals.id = id
             globals.name = name
             globals.last_name = last_name
             globals.mother_last_name = mother_last_name

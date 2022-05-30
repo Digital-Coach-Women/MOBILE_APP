@@ -18,7 +18,7 @@ export class CParticipantsScreen extends Component {
   }
 
   renderItem = ({item, index, array}) => {
-
+    console.log('globals => ' ,globals)
     const isYou = item.id === globals.id ? true : false
     console.log('item => ', item, isYou, item.id, globals.id)
     return (
